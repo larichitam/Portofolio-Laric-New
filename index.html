@@ -1,0 +1,832 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portofolio Profesional - Network & IT Specialist</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            500: '#06b6d4',
+                            600: '#0284c7',
+                            700: '#0369a1',
+                            900: '#0c4a6e',
+                        },
+                        darkbg: '#0f172a',
+                        cardbg: '#1e293b'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Custom scrollbar & glassmorphism styling */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0f172a;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #334155;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #0284c7;
+        }
+        .glass-card {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .profile-orbit { animation: profileOrbit 42s linear infinite; border-style: solid; opacity: .45; }
+        @keyframes profileOrbit { to { transform: rotate(360deg); } }
+        @media (prefers-reduced-motion: reduce) { .profile-orbit { animation: none; } }        .scroll-reveal { opacity: 0; transform: translateY(24px) scale(.985); transition: opacity .7s cubic-bezier(.2,.7,.2,1), transform .7s cubic-bezier(.2,.7,.2,1); transition-delay: var(--reveal-delay, 0ms); }
+        .scroll-reveal.is-visible { opacity: 1; transform: translateY(0) scale(1); }
+        @media (prefers-reduced-motion: reduce) { .scroll-reveal { opacity: 1; transform: none; transition: none; } }        .glass-nav {
+            background: rgba(15, 23, 42, 0.85);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+    </style>
+</head>
+<body class="bg-darkbg text-slate-100 font-sans antialiased selection:bg-brand-500 selection:text-white">
+
+    <!-- 1. NAVBAR (FIXED HEADER) -->
+    <nav class="fixed top-0 left-0 right-0 z-40 glass-nav transition-all duration-300" id="navbar">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                
+                <!-- Left: Profile Icon & Name -->
+                <div class="flex items-center space-x-3">
+                    <div class="relative group cursor-pointer" onclick="document.getElementById('navAvatarInput').click()">
+                        <img id="navAvatarImg" src="assets/profile/laric-profile.jpeg" alt="Avatar" class="w-10 h-10 rounded-full object-cover border-2 border-brand-500 shadow-md transition group-hover:opacity-80">
+                        <div class="absolute inset-0 bg-black/40 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition text-[10px] text-white font-semibold">Ganti</div>
+                    </div>
+                    <button onclick="resetImage('navAvatarImg', 'assets/profile/laric-profile.jpeg')" title="Reset Foto" class="text-xs text-slate-400 hover:text-rose-500 transition">
+                        <i class="fa-solid fa-trash-can"></i>
+                    </button>
+                    <input type="file" id="navAvatarInput" accept="image/*" class="hidden" onchange="previewImage(this, 'navAvatarImg')">
+                    
+                    <a href="#hero" class="text-lg font-bold text-white tracking-wide hover:text-brand-500 transition">
+                        Laric Shultonan Nashiro
+                    </a>
+                </div>
+
+                <!-- Right: Desktop Navigation Links -->
+                <div class="hidden md:flex items-center space-x-1 lg:space-x-2">
+                    <a href="#hero" class="px-3 py-2 rounded-lg text-sm font-medium text-slate-300 hover:text-white hover:bg-slate-800 transition">Beranda</a>
+                    <a href="#about" class="px-3 py-2 rounded-lg text-sm font-medium text-slate-300 hover:text-white hover:bg-slate-800 transition">Tentang Saya</a>
+                    <a href="#skills" class="px-3 py-2 rounded-lg text-sm font-medium text-slate-300 hover:text-white hover:bg-slate-800 transition">Keahlian</a>
+                    <a href="#certificates" class="px-3 py-2 rounded-lg text-sm font-medium text-slate-300 hover:text-white hover:bg-slate-800 transition">Sertifikat</a>
+                    <a href="#footer" class="ml-2 px-4 py-2 rounded-xl text-sm font-semibold text-white bg-brand-600 hover:bg-brand-500 transition shadow-lg shadow-brand-600/30">Kontak</a>
+                </div>
+
+                <!-- Mobile Hamburger Button -->
+                <div class="md:hidden flex items-center">
+                    <button id="mobileMenuBtn" type="button" class="text-slate-300 hover:text-white focus:outline-none p-2 rounded-lg hover:bg-slate-800" aria-label="Toggle navigation">
+                        <i class="fa-solid fa-bars text-xl" id="menuIcon"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu Dropdown -->
+        <div class="hidden md:hidden bg-slate-900/95 border-b border-slate-800 px-4 pt-2 pb-4 space-y-2 transition-all" id="mobileMenu">
+            <a href="#hero" class="mobile-link block px-3 py-2 rounded-md text-base font-medium text-slate-300 hover:text-white hover:bg-slate-800">Beranda</a>
+            <a href="#about" class="mobile-link block px-3 py-2 rounded-md text-base font-medium text-slate-300 hover:text-white hover:bg-slate-800">Tentang Saya</a>
+            <a href="#skills" class="mobile-link block px-3 py-2 rounded-md text-base font-medium text-slate-300 hover:text-white hover:bg-slate-800">Keahlian</a>
+            <a href="#certificates" class="mobile-link block px-3 py-2 rounded-md text-base font-medium text-slate-300 hover:text-white hover:bg-slate-800">Sertifikat</a>
+            <a href="#footer" class="mobile-link block px-3 py-2 rounded-md text-base font-medium text-brand-500 hover:bg-slate-800">Kontak</a>
+        </div>
+    </nav>
+
+    <!-- 2. SECTION HERO -->
+    <section id="hero" class="relative pt-32 pb-20 md:pt-44 md:pb-32 overflow-hidden flex items-center min-h-screen">
+        <!-- Background Gradient Spheres -->
+        <div class="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-brand-600/20 rounded-full blur-3xl pointer-events-none"></div>
+        <div class="absolute bottom-10 right-10 w-80 h-80 bg-indigo-600/15 rounded-full blur-3xl pointer-events-none"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full text-center md:text-left">
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
+                <div class="md:col-span-8 space-y-6">
+                    <div class="inline-flex items-center space-x-2 px-3 py-1.5 rounded-full bg-brand-500/10 border border-brand-500/30 text-brand-500 text-xs sm:text-sm font-semibold">
+                        <span class="w-2 h-2 rounded-full bg-brand-500 animate-ping"></span>
+                        <span>Siap Bekerja & Berkolaborasi</span>
+                    </div>
+
+                    <h1 class="text-3xl sm:text-5xl lg:text-6xl font-extrabold text-white tracking-tight leading-tight">
+                        Halo, Saya Laric Shultonan Nashiro
+                    </h1>
+
+                    <p class="text-lg sm:text-2xl font-semibold text-slate-300 h-8">
+                        <span id="typedText" class="text-brand-500 border-b-2 border-brand-500 pb-0.5"></span>
+                    </p>
+
+                    <p class="text-slate-400 text-base sm:text-lg max-w-2xl leading-relaxed">
+                        Spesialis dalam perancangan jaringan komputer, konfigurasi perangkat MikroTik, instalasi jaringan Fiber Optic (FO), serta bidang elektro dan pengelolaan server untuk mendukung infrastruktur IT yang andal.
+                    </p>
+
+                    <div class="flex flex-col sm:flex-row items-center justify-center md:justify-start gap-4 pt-4">
+                        <a href="#certificates" class="w-full sm:w-auto px-7 py-3.5 rounded-xl font-semibold text-white bg-brand-600 hover:bg-brand-500 transition-all shadow-lg shadow-brand-600/30 text-center flex items-center justify-center space-x-2">
+                            <span>Lihat Portofolio</span>
+                            <i class="fa-solid fa-arrow-right text-sm"></i>
+                        </a>
+                        <a href="#about" class="w-full sm:w-auto px-7 py-3.5 rounded-xl font-semibold text-slate-200 bg-slate-800/80 hover:bg-slate-700 hover:text-white transition-all border border-slate-700 text-center">
+                            Hubungi Saya
+                        </a>
+                    </div>
+                </div>
+
+                <div class="md:col-span-4 flex justify-center">
+                    <div class="relative w-72 h-72 sm:w-80 sm:h-80">
+    <div class="absolute -inset-5 rounded-[2.5rem] bg-gradient-to-tr from-brand-500/30 via-indigo-500/20 to-cyan-300/20 blur-2xl"></div>
+    <div class="relative h-full w-full rounded-[2rem] p-[3px] bg-gradient-to-br from-brand-300 via-cyan-400 to-indigo-500 shadow-2xl shadow-brand-900/40">
+        <div class="relative h-full w-full rounded-[1.85rem] rounded-tr-[4.5rem] rounded-bl-[3.5rem] overflow-hidden bg-slate-900 border border-white/10">
+            <img id="infraImg" src="assets/profile/laric-profile.jpeg" alt="Foto Laric di ruang praktik jaringan" class="w-full h-full object-cover object-[center_30%] saturate-110 contrast-[1.03] transition-transform duration-700 hover:scale-[1.04]">
+            <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/25 to-slate-950/20"></div>
+            <div class="absolute top-4 left-4 right-4 flex items-center justify-between">
+                
+                <div class="flex gap-2">
+                    <button type="button" onclick="document.getElementById('infraImgInput').click()" aria-label="Pilih foto Infrastruktur IT" title="Pilih foto" class="w-10 h-10 rounded-xl bg-brand-500 text-slate-950 hover:bg-brand-400 transition shadow-lg flex items-center justify-center"><i class="fa-solid fa-camera"></i></button>
+                    <button type="button" onclick="resetImage('infraImg', 'assets/profile/laric-profile.jpeg')" aria-label="Reset foto Infrastruktur IT" title="Reset foto" class="w-10 h-10 rounded-xl bg-slate-950/70 text-white hover:bg-rose-500 transition border border-white/10 flex items-center justify-center"><i class="fa-solid fa-arrow-rotate-left"></i></button>
+                </div>
+            </div>
+            
+            
+        </div>
+    </div>
+</div>
+<input type="file" id="infraImgInput" accept="image/*" class="hidden" onchange="previewImage(this, 'infraImg')">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. SECTION TENTANG SAYA -->
+    <section id="about" class="py-20 bg-slate-900/50 relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <h2 class="text-xs font-bold text-brand-500 uppercase tracking-widest mb-2">Profil Ringkas</h2>
+                <p class="text-3xl font-extrabold text-white sm:text-4xl">Tentang Saya</p>
+                <div class="w-16 h-1 bg-brand-500 mx-auto mt-4 rounded-full"></div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                
+                <!-- Left: Foto Profil Besar with Upload Option -->
+                <div class="lg:col-span-5 flex flex-col items-center">
+                    <div class="profile-visual relative w-full max-w-sm aspect-[4/5] flex items-center justify-center mb-2">
+                        <div class="absolute inset-[12%] rounded-full bg-gradient-to-tr from-brand-500/30 via-indigo-500/20 to-cyan-300/20 blur-3xl"></div>
+                        <div class="profile-orbit absolute inset-[3%] rounded-full border border-dashed border-brand-400/30"></div>
+                        <div class="absolute inset-[9%] rounded-[2.6rem] rounded-tr-[5rem] rounded-bl-[4.5rem] bg-gradient-to-br from-brand-400 via-cyan-400 to-indigo-500 rotate-4 shadow-2xl shadow-brand-500/25"></div>
+                        <div class="absolute inset-[8%] rounded-[2.6rem] rounded-tr-[5rem] rounded-bl-[4.5rem] bg-slate-800 -rotate-2 border border-white/10"></div>
+                        <div class="absolute inset-[7%] rounded-[2.6rem] rounded-tr-[5rem] rounded-bl-[4.5rem] p-[3px] bg-gradient-to-br from-brand-300 via-white/25 to-indigo-400 shadow-2xl shadow-black/50">
+                            <div class="group relative h-full w-full rounded-[2.4rem] rounded-tr-[4.6rem] rounded-bl-[4rem] overflow-hidden bg-slate-800 border border-white/10">
+                                <img id="aboutImg" src="assets/profile/laric-profile.jpeg" alt="Foto profil Laric Shultonan Nashiro" class="w-full h-full object-cover object-[center_27%] saturate-110 contrast-[1.04] transition-transform duration-700 group-hover:scale-[1.045]">
+                                <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-slate-950/10 pointer-events-none"></div>
+                                <button type="button" aria-label="Ganti foto profil" onclick="document.getElementById('aboutImgInput').click()" class="absolute inset-0 flex flex-col items-center justify-center bg-slate-950/55 opacity-0 group-hover:opacity-100 focus:opacity-100 transition-all duration-300 cursor-pointer">
+                                    <span class="w-14 h-14 rounded-2xl bg-brand-500 text-slate-950 flex items-center justify-center text-xl shadow-lg shadow-brand-500/30"><i class="fa-solid fa-camera"></i></span>
+                                    <span class="mt-3 text-sm font-semibold text-white">Klik untuk mengganti foto</span>
+                                </button>
+                                <div class="absolute bottom-5 left-5 right-5 pointer-events-none">
+                                    <div class="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-brand-200"><span class="w-2 h-2 rounded-full bg-emerald-400 shadow-[0_0_12px_#34d399]"></span>Student SMK PELITA NUSANTARA</div>
+                                    <div class="mt-1 text-2xl sm:text-3xl font-extrabold text-white drop-shadow-lg">Laric Shultonan Nashiro</div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                        
+                        
+                    </div>                    <div class="flex items-center space-x-3 mt-3">
+                        <button onclick="resetImage('aboutImg', 'assets/profile/laric-profile.jpeg')" class="px-3 py-1.5 rounded-lg text-xs font-semibold text-rose-400 bg-rose-500/10 hover:bg-rose-500/20 border border-rose-500/20 transition flex items-center space-x-1">
+                            <i class="fa-solid fa-trash-can"></i>
+                            <span>Reset Foto Utama</span>
+                        </button>
+                    </div>
+                    <input type="file" id="aboutImgInput" accept="image/*" class="hidden" onchange="previewImage(this, 'aboutImg')">
+                </div>
+
+                <!-- Right: Deskripsi & Informasi Kontak -->
+                <div class="lg:col-span-7 space-y-6">
+                    <h3 class="text-2xl font-bold text-white">
+                        Siswa Teknik Komputer dan Jaringan           
+                    </h3>
+                    <p class="text-slate-300 leading-relaxed">
+                        Saya adalah siswa SMK PELITA NUSANTARA yang tertarik pada bidang jaringan komputer dan infrastruktur teknologi informasi. Saya mempelajari konfigurasi MikroTik, instalasi Fiber Optic, pengelolaan server, serta elektro. Saya senang mengembangkan keterampilan melalui praktik dan siap belajar serta berkolaborasi dalam proyek IT.
+                    </p>
+
+                    <!-- Informasi Kontak Cards -->
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-4">
+                        <!-- Nomor HP / WA -->
+                        <div class="glass-card p-4 rounded-2xl border border-slate-800 hover:border-brand-500/50 transition">
+                            <div class="w-10 h-10 rounded-xl bg-brand-500/10 text-brand-500 flex items-center justify-center mb-3 text-lg">
+                                <i class="fa-solid fa-phone"></i>
+                            </div>
+                            <h4 class="text-xs text-slate-400 font-semibold uppercase">Telepon / WA</h4>
+                            <p class="text-sm font-bold text-slate-200 mt-1 truncate">+62 1234 7191</p>
+                        </div>
+
+                        <!-- Email -->
+                        <div class="glass-card p-4 rounded-2xl border border-slate-800 hover:border-brand-500/50 transition">
+                            <div class="w-10 h-10 rounded-xl bg-brand-500/10 text-brand-500 flex items-center justify-center mb-3 text-lg">
+                                <i class="fa-solid fa-envelope"></i>
+                            </div>
+                            <h4 class="text-xs text-slate-400 font-semibold uppercase">Email</h4>
+                            <p class="text-sm font-bold text-slate-200 mt-1 truncate">lariclaricshultonann@gmail.com</p>
+                        </div>
+
+                        <!-- Alamat -->
+                        <div class="glass-card p-4 rounded-2xl border border-slate-800 hover:border-brand-500/50 transition">
+                            <div class="w-10 h-10 rounded-xl bg-brand-500/10 text-brand-500 flex items-center justify-center mb-3 text-lg">
+                                <i class="fa-solid fa-location-dot"></i>
+                            </div>
+                            <h4 class="text-xs text-slate-400 font-semibold uppercase">Alamat</h4>
+                            <p class="text-sm font-bold text-slate-200 mt-1 truncate">Depok, Indonesia</p>
+                        </div>
+                    </div>
+
+                    <!-- Additional Details / Badge -->
+                    <div class="p-4 rounded-2xl bg-slate-800/40 border border-slate-800 flex items-center space-x-4">
+                        <div class="text-3xl text-brand-500">
+                            <i class="fa-solid fa-award"></i>
+                        </div>
+                        <div>
+                            <h5 class="text-sm font-bold text-white">Pengalaman Praktis & Sertifikasi</h5>
+                            <p class="text-xs text-slate-400">Siap menangani pemeliharaan jaringan, routing Mikrotik, hingga instalasi Fiber Optic.</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. SECTION SKILL (KEAHLIAN INTERAKTIF) -->
+    <section id="skills" class="py-20 relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-12">
+                <h2 class="text-xs font-bold text-brand-500 uppercase tracking-widest mb-2">Spesialisasi</h2>
+                <p class="text-3xl font-extrabold text-white sm:text-4xl">Keahlian Utama</p>
+                <p class="text-slate-400 text-sm mt-2">Pilih tombol di bawah untuk melihat rincian serta galeri dokumentasi foto keahlian.</p>
+                <div class="w-16 h-1 bg-brand-500 mx-auto mt-4 rounded-full"></div>
+            </div>
+
+            <!-- Tab Buttons (4 Buttons) -->
+            <div class="flex flex-wrap justify-center gap-2 sm:gap-4 mb-10">
+                <button onclick="switchTab('mikrotik')" id="tab-mikrotik" class="tab-btn px-5 py-3 rounded-xl font-semibold text-sm transition-all duration-300 flex items-center space-x-2 bg-brand-600 text-white shadow-lg shadow-brand-600/30">
+                    <i class="fa-solid fa-router"></i>
+                    <span>MikroTik</span>
+                </button>
+                <button onclick="switchTab('fo')" id="tab-fo" class="tab-btn px-5 py-3 rounded-xl font-semibold text-sm transition-all duration-300 flex items-center space-x-2 bg-slate-800 text-slate-300 hover:bg-slate-700">
+                    <i class="fa-solid fa-bolt"></i>
+                    <span>Fiber Optic (FO)</span>
+                </button>
+                <button onclick="switchTab('networking')" id="tab-networking" class="tab-btn px-5 py-3 rounded-xl font-semibold text-sm transition-all duration-300 flex items-center space-x-2 bg-slate-800 text-slate-300 hover:bg-slate-700">
+                    <i class="fa-solid fa-server"></i>
+                    <span>Server</span>
+                </button>
+                <button onclick="switchTab('webdev')" id="tab-webdev" class="tab-btn px-5 py-3 rounded-xl font-semibold text-sm transition-all duration-300 flex items-center space-x-2 bg-slate-800 text-slate-300 hover:bg-slate-700">
+                    <i class="fa-solid fa-microchip"></i>
+                    <span>Elektro</span>
+                </button>
+            </div>
+
+            <!-- Skill Content Container -->
+            <div class="glass-card rounded-3xl p-6 sm:p-8 border border-slate-800">
+                
+                <!-- Description Section Header -->
+                <div class="mb-8">
+                    <h3 id="skillTitle" class="text-2xl font-bold text-white mb-2">Konfigurasi Dasar MikroTik</h3>
+                    <p id="skillDesc" class="text-slate-300 text-sm sm:text-base leading-relaxed">
+                        Mampu melakukan konfigurasi dasar MikroTik, WLAN, VLAN, Hotspot Login, Bridge, manajemen bandwidth, pemblokiran situs web, dan routing.
+                    </p>
+                </div>
+
+                <div class="mb-4 flex justify-between items-center">
+                    <h4 class="text-sm font-bold text-brand-500 uppercase tracking-wider">Dokumentasi Foto Kategori Ini (hingga 7 Foto)</h4>
+                    <span class="text-xs text-slate-500">Klik ikon kamera untuk ganti foto</span>
+                </div>
+
+                <!-- 4 Gallery Photos Grid per Category -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4" id="skillGallery">
+                    <!-- Photo 1 -->
+                    <div class="relative group aspect-video rounded-2xl overflow-hidden bg-slate-800 border border-slate-700/60">
+                        <img id="skillImg1" src="assets/skills/crimping-lan.jpeg" alt="Pengujian kabel LAN menggunakan cable tester" class="w-full h-full object-cover">
+                        <div class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition flex items-center justify-center space-x-3">
+                            <button onclick="document.getElementById('skillInput1').click()" class="p-2 bg-brand-600 rounded-full text-white hover:bg-brand-500" title="Ganti Foto">
+                                <i class="fa-solid fa-camera"></i>
+                            </button>
+                            <button onclick="resetSkillImage(1)" class="p-2 bg-rose-600 rounded-full text-white hover:bg-rose-500" title="Hapus/Reset Foto">
+                                <i class="fa-solid fa-trash-can"></i>
+                            </button>
+                        </div>
+                        <input type="file" id="skillInput1" accept="image/*" class="hidden" onchange="previewImage(this, 'skillImg1')">
+                    </div>
+                    <!-- Photo 2 -->
+                    <div class="relative group aspect-video rounded-2xl overflow-hidden bg-slate-800 border border-slate-700/60">
+                        <img id="skillImg2" src="assets/skills/mikrotik-router-config-laptop.jpeg" alt="Konfigurasi router MikroTik melalui laptop" class="w-full h-full object-cover">
+                        <div class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition flex items-center justify-center space-x-3">
+                            <button onclick="document.getElementById('skillInput2').click()" class="p-2 bg-brand-600 rounded-full text-white hover:bg-brand-500" title="Ganti Foto">
+                                <i class="fa-solid fa-camera"></i>
+                            </button>
+                            <button onclick="resetSkillImage(2)" class="p-2 bg-rose-600 rounded-full text-white hover:bg-rose-500" title="Hapus/Reset Foto">
+                                <i class="fa-solid fa-trash-can"></i>
+                            </button>
+                        </div>
+                        <input type="file" id="skillInput2" accept="image/*" class="hidden" onchange="previewImage(this, 'skillImg2')">
+                    </div>
+                    <!-- Photo 3 -->
+                    <div class="relative group aspect-video rounded-2xl overflow-hidden bg-slate-800 border border-slate-700/60">
+                        <img id="skillImg3" src="assets/skills/mikrotik-winbox-config.jpeg" alt="Praktik konfigurasi MikroTik dengan Winbox" class="w-full h-full object-cover">
+                        <div class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition flex items-center justify-center space-x-3">
+                            <button onclick="document.getElementById('skillInput3').click()" class="p-2 bg-brand-600 rounded-full text-white hover:bg-brand-500" title="Ganti Foto">
+                                <i class="fa-solid fa-camera"></i>
+                            </button>
+                            <button onclick="resetSkillImage(3)" class="p-2 bg-rose-600 rounded-full text-white hover:bg-rose-500" title="Hapus/Reset Foto">
+                                <i class="fa-solid fa-trash-can"></i>
+                            </button>
+                        </div>
+                        <input type="file" id="skillInput3" accept="image/*" class="hidden" onchange="previewImage(this, 'skillImg3')">
+                    </div>
+                    <!-- Photo 4 -->
+                    <div class="relative group aspect-video rounded-2xl overflow-hidden bg-slate-800 border border-slate-700/60">
+                        <img id="skillImg4" src="https://placehold.co/600x400/1e293b/0284c7?text=Mikrotik+Foto+4" alt="Skill 4" class="w-full h-full object-cover">
+                        <div class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition flex items-center justify-center space-x-3">
+                            <button onclick="document.getElementById('skillInput4').click()" class="p-2 bg-brand-600 rounded-full text-white hover:bg-brand-500" title="Ganti Foto">
+                                <i class="fa-solid fa-camera"></i>
+                            </button>
+                            <button onclick="resetSkillImage(4)" class="p-2 bg-rose-600 rounded-full text-white hover:bg-rose-500" title="Hapus/Reset Foto">
+                                <i class="fa-solid fa-trash-can"></i>
+                            </button>
+                        </div>
+                        <input type="file" id="skillInput4" accept="image/*" class="hidden" onchange="previewImage(this, 'skillImg4')">
+                    </div>                    <!-- Photo 5 -->
+                    <div class="relative group aspect-video rounded-2xl overflow-hidden bg-slate-800 border border-slate-700/60"><img id="skillImg5" src="https://placehold.co/600x400/1e293b/0284c7?text=Mikrotik+Foto+5" alt="Skill 5" class="w-full h-full object-cover"><div class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition flex items-center justify-center space-x-3"><button onclick="document.getElementById('skillInput5').click()" class="p-2 bg-brand-600 rounded-full text-white hover:bg-brand-500" title="Ganti Foto"><i class="fa-solid fa-camera"></i></button><button onclick="resetSkillImage(5)" class="p-2 bg-rose-600 rounded-full text-white hover:bg-rose-500" title="Hapus/Reset Foto"><i class="fa-solid fa-trash-can"></i></button></div><input type="file" id="skillInput5" accept="image/*" class="hidden" onchange="previewImage(this, 'skillImg5')"></div>
+                    <!-- Photo 6 -->
+                    <div class="relative group aspect-video rounded-2xl overflow-hidden bg-slate-800 border border-slate-700/60"><img id="skillImg6" src="https://placehold.co/600x400/1e293b/0284c7?text=Mikrotik+Foto+6" alt="Skill 6" class="w-full h-full object-cover"><div class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition flex items-center justify-center space-x-3"><button onclick="document.getElementById('skillInput6').click()" class="p-2 bg-brand-600 rounded-full text-white hover:bg-brand-500" title="Ganti Foto"><i class="fa-solid fa-camera"></i></button><button onclick="resetSkillImage(6)" class="p-2 bg-rose-600 rounded-full text-white hover:bg-rose-500" title="Hapus/Reset Foto"><i class="fa-solid fa-trash-can"></i></button></div><input type="file" id="skillInput6" accept="image/*" class="hidden" onchange="previewImage(this, 'skillImg6')"></div>
+                    <!-- Photo 7 -->
+                    <div class="relative group aspect-video rounded-2xl overflow-hidden bg-slate-800 border border-slate-700/60"><img id="skillImg7" src="https://placehold.co/600x400/1e293b/0284c7?text=Mikrotik+Foto+7" alt="Skill 7" class="w-full h-full object-cover"><div class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition flex items-center justify-center space-x-3"><button onclick="document.getElementById('skillInput7').click()" class="p-2 bg-brand-600 rounded-full text-white hover:bg-brand-500" title="Ganti Foto"><i class="fa-solid fa-camera"></i></button><button onclick="resetSkillImage(7)" class="p-2 bg-rose-600 rounded-full text-white hover:bg-rose-500" title="Hapus/Reset Foto"><i class="fa-solid fa-trash-can"></i></button></div><input type="file" id="skillInput7" accept="image/*" class="hidden" onchange="previewImage(this, 'skillImg7')"></div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. SECTION SERTIFIKAT -->
+    <section id="certificates" class="py-20 bg-slate-900/50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <h2 class="text-xs font-bold text-brand-500 uppercase tracking-widest mb-2">Pencapaian</h2>
+                <p class="text-3xl font-extrabold text-white sm:text-4xl">Sertifikat & Lisensi</p>
+                <p class="text-slate-400 text-sm mt-2">Klik pada kartu sertifikat untuk melihat tampilan fullscreen beserta deskripsinya.</p>
+                <div class="w-16 h-1 bg-brand-500 mx-auto mt-4 rounded-full"></div>
+            </div>
+
+            <!-- Grid 6 Card Sertifikat -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="certContainer">
+                
+                <!-- Slot awal: Google for Education -->
+                <div id="certCard14" class="glass-card rounded-2xl overflow-hidden border border-slate-800 hover:border-brand-500/50 transition-all duration-300 group flex flex-col"><div class="relative overflow-hidden cursor-pointer" onclick="openCertModal(14)"><img id="certImg14" src="assets/certificates/google-for-education-preview.png" alt="Google Gemini Certified Student K12" class="w-full h-48 object-cover object-center"></div><div class="p-5 flex-1 flex flex-col justify-between"><div><span class="text-xs font-semibold text-brand-500 uppercase">Google for Education</span><h3 class="text-lg font-bold text-white mt-1">Gemini Certified Student - K12</h3><p class="text-xs text-slate-400 mt-2">Kualifikasi penggunaan Google AI dalam pendidikan. Diterbitkan 1 Oktober 2026 dan berlaku sampai 1 Oktober 2027.</p></div><div class="mt-4 pt-4 border-t border-slate-800 flex justify-between"><a href="assets/certificates/google-for-education.pdf" target="_blank" rel="noopener" class="text-xs text-brand-400">Buka PDF</a><span class="text-xs text-slate-500">2026-2027</span></div></div></div>
+                <!-- Slot awal: Cyber Security Dasar -->
+                <div id="certCard15" class="glass-card rounded-2xl overflow-hidden border border-slate-800 hover:border-brand-500/50 transition-all duration-300 group flex flex-col"><div class="relative overflow-hidden cursor-pointer" onclick="openCertModal(15)"><img id="certImg15" src="assets/certificates/cyber-security-dasar-preview.png" alt="Sertifikat penyelesaian Cyber Security Dasar ID-Networkers" class="w-full h-48 object-cover object-top"></div><div class="p-5 flex-1 flex flex-col justify-between"><div><span class="text-xs font-semibold text-brand-500 uppercase">ID-Networkers</span><h3 class="text-lg font-bold text-white mt-1">Cyber Security Dasar</h3><p class="text-xs text-slate-400 mt-2">Bukti penyelesaian kursus online Cyber Security Dasar. Berlaku sampai 19-08-2029.</p></div><div class="mt-4 pt-4 border-t border-slate-800 flex justify-between"><a href="assets/certificates/cyber-security-dasar.pdf" target="_blank" rel="noopener" class="text-xs text-brand-400">Buka PDF</a><a href="https://lms.idn.id/cert-verification" target="_blank" rel="noopener" class="text-xs text-slate-400">Verifikasi</a></div></div></div>
+                <!-- Card 1 -->
+
+                <!-- Card 2 -->
+
+                <!-- Card 3 -->
+
+                <!-- Card 4 -->
+
+                <!-- Card 5 -->
+
+                <!-- Sertifikat tambahan -->
+                <div id="certCard6" class="glass-card rounded-2xl overflow-hidden border border-slate-800 hover:border-brand-500/50 transition-all duration-300 group flex flex-col"><div class="relative overflow-hidden cursor-pointer" onclick="openCertModal(6)"><img id="certImg6" src="assets/certificates/cisco-dasar-preview.png" alt="Sertifikat Cisco Dasar ID-Networkers" class="w-full h-48 object-cover object-top"><div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition flex items-center justify-center"><span class="px-3 py-1 bg-brand-600 text-white text-xs rounded-lg">Perbesar</span></div></div><div class="p-5 flex-1 flex flex-col justify-between"><div><span class="text-xs font-semibold text-brand-500 uppercase">ID-Networkers</span><h3 class="text-lg font-bold text-white mt-1">Cisco Dasar</h3><p class="text-xs text-slate-400 mt-2">Bukti penyelesaian kursus online Cisco Dasar dari ID-Networkers. Berlaku sampai 19-08-2029.</p></div><div class="mt-4 pt-4 border-t border-slate-800 flex justify-between"><a href="assets/certificates/cisco-dasar.pdf" target="_blank" rel="noopener" class="text-xs text-brand-400">Buka PDF</a><a href="https://lms.idn.id/cert-verification" target="_blank" rel="noopener" class="text-xs text-slate-400">Verifikasi</a></div></div></div>
+                <div id="certCard7" class="glass-card rounded-2xl overflow-hidden border border-slate-800 hover:border-brand-500/50 transition-all duration-300 group flex flex-col"><div class="relative overflow-hidden cursor-pointer" onclick="openCertModal(7)"><img id="certImg7" src="assets/certificates/belajar-linux-preview.png" alt="Sertifikat Belajar Linux dari Nol ID-Networkers" class="w-full h-48 object-cover object-top"><div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition flex items-center justify-center"><span class="px-3 py-1 bg-brand-600 text-white text-xs rounded-lg">Perbesar</span></div></div><div class="p-5 flex-1 flex flex-col justify-between"><div><span class="text-xs font-semibold text-brand-500 uppercase">ID-Networkers</span><h3 class="text-lg font-bold text-white mt-1">Belajar Linux dari Nol</h3><p class="text-xs text-slate-400 mt-2">Bukti penyelesaian kursus online Belajar Linux dari Nol dari ID-Networkers. Berlaku sampai 19-08-2029.</p></div><div class="mt-4 pt-4 border-t border-slate-800 flex justify-between"><a href="assets/certificates/belajar-linux-dari-nol.pdf" target="_blank" rel="noopener" class="text-xs text-brand-400">Buka PDF</a><a href="https://lms.idn.id/cert-verification" target="_blank" rel="noopener" class="text-xs text-slate-400">Verifikasi</a></div></div></div>
+                <div id="certCard8" class="glass-card rounded-2xl overflow-hidden border border-slate-800 hover:border-brand-500/50 transition-all duration-300 group flex flex-col"><div class="relative overflow-hidden cursor-pointer" onclick="openCertModal(8)"><img id="certImg8" src="assets/certificates/exploring-ruijie-reyee.jpeg" alt="Webinar Exploring Ruijie & Reyee Enterprise Technology" class="w-full h-48 object-cover object-top"><div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition flex items-center justify-center"><span class="px-3 py-1 bg-brand-600 text-white text-xs rounded-lg">Perbesar</span></div></div><div class="p-5 flex-1 flex flex-col justify-between"><div><span class="text-xs font-semibold text-brand-500 uppercase">ID-Networkers</span><h3 class="text-lg font-bold text-white mt-1">Exploring Ruijie & Reyee Enterprise Technology</h3><p class="text-xs text-slate-400 mt-2">Partisipasi webinar teknologi enterprise Ruijie & Reyee, 10 Oktober 2024.</p></div><div class="mt-4 pt-4 border-t border-slate-800 flex justify-end"><span class="text-xs text-slate-500">10 Oktober 2024</span></div></div></div>
+                <!-- Sertifikat tambahan -->
+                <div id="certCard9" class="glass-card rounded-2xl overflow-hidden border border-slate-800 hover:border-brand-500/50 transition-all duration-300 group flex flex-col"><div class="relative overflow-hidden cursor-pointer" onclick="openCertModal(9)"><img id="certImg9" src="assets/certificates/docker-quest-preview.png" alt="Sertifikat penyelesaian Docker Quest" class="w-full h-48 object-cover object-top"></div><div class="p-5 flex-1 flex flex-col justify-between"><div><span class="text-xs font-semibold text-brand-500 uppercase">Docker Quest | SMK Plus Pelita Nusantara</span><h3 class="text-lg font-bold text-white mt-1">Penyelesaian Misi Kontainerisasi Docker</h3><p class="text-xs text-slate-400 mt-2">Menyelesaikan misi kontainerisasi Docker (TP 4.1, 4.2, 4.3), termasuk Docker Engine, Image, dan Container. Lulus CBT dengan nilai 100. 27 Oktober 2026.</p></div><div class="mt-4 pt-4 border-t border-slate-800 flex justify-between"><a href="assets/certificates/docker-quest.pdf" target="_blank" rel="noopener" class="text-xs text-brand-400">Buka PDF</a><span class="text-xs text-slate-500">27 Oktober 2026</span></div></div></div>
+                <div id="certCard10" class="glass-card rounded-2xl overflow-hidden border border-slate-800 hover:border-brand-500/50 transition-all duration-300 group flex flex-col"><div class="relative overflow-hidden cursor-pointer" onclick="openCertModal(10)"><img id="certImg10" src="assets/certificates/course-oop-preview.png" alt="Sertifikat Course OOP ID-Networkers" class="w-full h-48 object-cover object-top"></div><div class="p-5 flex-1 flex flex-col justify-between"><div><span class="text-xs font-semibold text-brand-500 uppercase">ID-Networkers</span><h3 class="text-lg font-bold text-white mt-1">Course OOP</h3><p class="text-xs text-slate-400 mt-2">Sertifikat penyelesaian kursus Course OOP. Berlaku sampai 19-08-2029.</p></div><div class="mt-4 pt-4 border-t border-slate-800 flex justify-between"><a href="assets/certificates/course-oop.pdf" target="_blank" rel="noopener" class="text-xs text-brand-400">Buka PDF</a><a href="https://lms.idn.id/cert-verification" target="_blank" rel="noopener" class="text-xs text-slate-400">Verifikasi</a></div></div></div>
+                <div id="certCard11" class="glass-card rounded-2xl overflow-hidden border border-slate-800 hover:border-brand-500/50 transition-all duration-300 group flex flex-col"><div class="relative overflow-hidden cursor-pointer" onclick="openCertModal(11)"><img id="certImg11" src="assets/certificates/getting-started-industrial-cybersecurity.jpeg" alt="Webinar Getting Started with Industrial Cybersecurity" class="w-full h-48 object-cover object-top"></div><div class="p-5 flex-1 flex flex-col justify-between"><div><span class="text-xs font-semibold text-brand-500 uppercase">ID-Networkers</span><h3 class="text-lg font-bold text-white mt-1">Getting Started with Industrial Cybersecurity</h3><p class="text-xs text-slate-400 mt-2">Sertifikat partisipasi webinar tentang keamanan siber industri, diselenggarakan 25 Juli 2025.</p></div><div class="mt-4 pt-4 border-t border-slate-800 flex justify-end"><span class="text-xs text-slate-500">25 Juli 2025</span></div></div></div>
+                <div id="certCard13" class="glass-card rounded-2xl overflow-hidden border border-slate-800 hover:border-brand-500/50 transition-all duration-300 group flex flex-col"><div class="relative overflow-hidden cursor-pointer" onclick="openCertModal(13)"><img id="certImg13" src="assets/certificates/internet-tcp-ip.jpeg" alt="Sertifikat webinar Internet TCP/IP Konsep dan Implementasi" class="w-full h-48 object-cover object-top"></div><div class="p-5 flex-1 flex flex-col justify-between"><div><span class="text-xs font-semibold text-brand-500 uppercase">SMK Plus Pelita Nusantara</span><h3 class="text-lg font-bold text-white mt-1">Internet TCP/IP: Konsep & Implementasi</h3><p class="text-xs text-slate-400 mt-2">Sertifikat peserta kuliah umum dengan narasumber Onno W. Purbo, 9 September 2024.</p></div><div class="mt-4 pt-4 border-t border-slate-800 flex justify-end"><span class="text-xs text-slate-500">9 September 2024</span></div></div></div>
+                <!-- Card 6 -->
+                <div id="certCard5" class="glass-card rounded-2xl overflow-hidden border border-slate-800 hover:border-brand-500/50 transition-all duration-300 group flex flex-col relative">
+                    <button onclick="deleteCertCard(5)" title="Hapus Sertifikat Ini" class="absolute top-3 right-3 z-10 w-8 h-8 rounded-full bg-slate-900/80 text-rose-400 hover:bg-rose-600 hover:text-white transition flex items-center justify-center border border-slate-700/50">
+                        <i class="fa-solid fa-trash-can text-xs"></i>
+                    </button>
+                    <div class="relative overflow-hidden cursor-pointer" onclick="openCertModal(5)">
+                        <img id="certImg5" src="assets/certificates/bisa-ai-cyber.png" alt="Sertifikat BISA AI Cyber Security" class="w-full h-48 object-cover group-hover:scale-105 transition duration-300">
+                        <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition flex items-center justify-center">
+                            <span class="px-3 py-1 bg-brand-600/90 text-white text-xs font-semibold rounded-lg"><i class="fa-solid fa-expand mr-1"></i> Perbesar</span>
+                        </div>
+                    </div>
+                    <div class="p-5 flex-1 flex flex-col justify-between">
+                        <div>
+                            <span class="text-xs font-semibold text-brand-500 uppercase">BISA AI Academy</span>
+                            <h3 class="text-lg font-bold text-white mt-1 group-hover:text-brand-500 transition">Pelatihan Cyber Security - BISA AI</h3>
+                            <p class="text-xs text-slate-400 mt-2 line-clamp-2">Sertifikat penyelesaian pelatihan asinkronus Cyber Security dari BISA AI Academy, diterbitkan 12 November 2026. Nomor sertifikat 2026/531/76842.</p>
+                        </div>
+                        <div class="mt-4 pt-4 border-t border-slate-800 flex justify-between items-center">
+                            <span class="text-xs text-slate-500"><i class="fa-solid fa-calendar-alt mr-1"></i>12 November 2026</span>
+                            <button onclick="document.getElementById('certInput5').click()" class="text-xs text-slate-400 hover:text-brand-500"><i class="fa-solid fa-upload mr-1"></i>Ganti Foto</button>
+                            <input type="file" id="certInput5" accept="image/*" class="hidden" onchange="previewCertImage(this, 5)">
+                        </div>
+                    </div>
+                </div>
+
+                <div id="certCard16" class="glass-card rounded-2xl overflow-hidden border border-slate-800 hover:border-brand-500/50 transition-all duration-300 group flex flex-col relative">
+                    <button onclick="deleteCertCard(16)" title="Hapus Sertifikat Ini" class="absolute top-3 right-3 z-10 w-8 h-8 rounded-full bg-slate-900/80 text-rose-400 hover:bg-rose-600 hover:text-white transition flex items-center justify-center border border-slate-700/50"><i class="fa-solid fa-trash-can text-xs"></i></button>
+                    <div class="relative overflow-hidden cursor-pointer" onclick="openCertModal(16)"><img id="certImg16" src="assets/certificates/mydigilearn-grand-launching-kid-2025.jpeg" alt="Sertifikat myDigiLearn Grand Launching KID 2025" class="w-full h-48 object-cover object-top group-hover:scale-105 transition duration-300"><div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition flex items-center justify-center"><span class="px-3 py-1 bg-brand-600/90 text-white text-xs font-semibold rounded-lg"><i class="fa-solid fa-expand mr-1"></i> Perbesar</span></div></div>
+                    <div class="p-5 flex-1 flex flex-col justify-between"><div><span class="text-xs font-semibold text-brand-500 uppercase">myDigiLearn · Telkom Corporate University</span><h3 class="text-lg font-bold text-white mt-1 group-hover:text-brand-500 transition">Grand Launching KID 2025</h3><p class="text-xs text-slate-400 mt-2">Sertifikat penyelesaian live event Grand Launching KID 2025 di Bandung pada 30 Juli 2025.</p></div><div class="mt-4 pt-4 border-t border-slate-800 flex justify-between items-center"><span class="text-xs text-slate-500"><i class="fa-solid fa-calendar-alt mr-1"></i>30 Juli 2025</span><span class="text-xs text-slate-400">Telkom Indonesia</span></div></div>
+                </div>                <div id="certCard17" class="glass-card rounded-2xl overflow-hidden border border-slate-800 hover:border-brand-500/50 transition-all duration-300 group flex flex-col relative">
+                    <button onclick="deleteCertCard(17)" title="Hapus Sertifikat Ini" class="absolute top-3 right-3 z-10 w-8 h-8 rounded-full bg-slate-900/80 text-rose-400 hover:bg-rose-600 hover:text-white transition flex items-center justify-center border border-slate-700/50"><i class="fa-solid fa-trash-can text-xs"></i></button>
+                    <div class="relative overflow-hidden cursor-pointer" onclick="openCertModal(17)"><img id="certImg17" src="assets/certificates/sertifikat-pkl.jpeg" alt="Sertifikat Praktik Kerja Lapangan Laric di PT Jaringan Pintar Nusantara" class="w-full h-48 object-cover object-top group-hover:scale-105 transition duration-300"><div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition flex items-center justify-center"><span class="px-3 py-1 bg-brand-600/90 text-white text-xs font-semibold rounded-lg"><i class="fa-solid fa-expand mr-1"></i> Perbesar</span></div></div>
+                    <div class="p-5 flex-1 flex flex-col justify-between"><div><span class="text-xs font-semibold text-brand-500 uppercase">PT Jaringan Pintar Nusantara</span><h3 class="text-lg font-bold text-white mt-1 group-hover:text-brand-500 transition">Praktik Kerja Lapangan</h3><p class="text-xs text-slate-400 mt-2">Sertifikat PKL di PT Jaringan Pintar Nusantara, periode 20 Agustus 2025 hingga 10 Maret 2026.</p></div><div class="mt-4 pt-4 border-t border-slate-800 flex justify-between items-center"><span class="text-xs text-slate-500">20 Agustus 2025 - 10 Maret 2026</span><span class="text-xs text-slate-400">Sertifikat PKL</span></div></div>
+                </div>            </div>
+        </div>
+    </section>
+
+    <!-- LIGHTBOX / MODAL FULLSCREEN SERTIFIKAT -->
+    <div id="certModal" class="fixed inset-0 z-50 bg-black/90 backdrop-blur-md hidden flex items-center justify-center p-4 transition-all">
+        <div class="relative max-w-4xl w-full bg-slate-900 border border-slate-800 rounded-3xl overflow-hidden shadow-2xl">
+            <!-- Close Button -->
+            <button onclick="closeCertModal()" class="absolute top-4 right-4 z-10 w-10 h-10 bg-slate-800/80 text-white rounded-full flex items-center justify-center hover:bg-rose-600 transition">
+                <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
+
+            <div class="flex flex-col md:flex-row">
+                <!-- Fullscreen Image View -->
+                <div class="md:w-3/5 bg-black flex items-center justify-center p-2">
+                    <img id="modalImg" src="" alt="Fullscreen Certificate" class="max-h-[70vh] w-auto object-contain rounded-lg">
+                </div>
+                <!-- Certificate Details -->
+                <div class="md:w-2/5 p-6 flex flex-col justify-between">
+                    <div>
+                        <span id="modalIssuer" class="text-xs font-bold text-brand-500 uppercase tracking-wider">Penerbit</span>
+                        <h3 id="modalTitle" class="text-xl font-bold text-white mt-1">Judul Sertifikat</h3>
+                        <p id="modalDate" class="text-xs text-slate-400 mt-1 mb-4"><i class="fa-solid fa-calendar-alt mr-1"></i>Tanggal</p>
+                        <p id="modalDesc" class="text-slate-300 text-sm leading-relaxed">Deskripsi lengkap sertifikat akan tampil di sini.</p>
+                    </div>
+                    <div class="mt-6 pt-4 border-t border-slate-800 flex justify-end">
+                        <button onclick="closeCertModal()" class="px-5 py-2.5 rounded-xl bg-slate-800 text-white hover:bg-slate-700 text-sm font-semibold transition">Tutup</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 6. FOOTER -->
+    <footer id="footer" class="bg-slate-950 border-t border-slate-800/80 py-12 relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row items-center justify-between gap-6">
+                
+                <!-- Sisi Kiri: Nama & Copyright -->
+                <div class="text-center md:text-left">
+                    <h3 class="text-lg font-bold text-white">Nama<span class="text-brand-500">Anda</span></h3>
+                    <p class="text-xs text-slate-400 mt-1">
+                        &copy; <span id="currentYear"></span> Hak Cipta Dilindungi. Dibuat dengan passion & dedikasi.
+                    </p>
+                </div>
+
+                <!-- Sisi Kanan: Icon Links GitHub & Instagram -->
+                <div class="flex items-center space-x-4">
+                    <!-- GitHub Link -->
+                    <a href="https://github.com" target="_blank" rel="noopener noreferrer" aria-label="GitHub Profile" class="w-11 h-11 rounded-2xl bg-slate-900 border border-slate-800 flex items-center justify-center text-slate-300 hover:text-white hover:bg-slate-800 hover:border-brand-500 transition-all duration-300 shadow-lg group">
+                        <i class="fa-brands fa-github text-xl group-hover:scale-110 transition"></i>
+                    </a>
+
+                    <!-- Instagram Link -->
+                    <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" aria-label="Instagram Profile" class="w-11 h-11 rounded-2xl bg-slate-900 border border-slate-800 flex items-center justify-center text-slate-300 hover:text-white hover:bg-slate-800 hover:border-brand-500 transition-all duration-300 shadow-lg group">
+                        <i class="fa-brands fa-instagram text-xl group-hover:scale-110 transition"></i>
+                    </a>
+                </div>
+
+            </div>
+        </div>
+    </footer>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        // Data Sertifikat untuk Lightbox Modal
+        let activeSkillTab = 'mikrotik';
+        const certificateData = [
+            {
+                title: "MTCNA - MikroTik Certified Network Associate",
+                issuer: "MikroTik Academy",
+                date: "2023",
+                desc: "Sertifikasi resmi MikroTik yang membuktikan keahlian dalam konfigurasi dasar RouterOS, manajemen bandwidth, routing, firewall, wireless networks, dan troubleshooting dasar."
+            },
+            {
+                title: "MTCRE - Routing Engineer",
+                issuer: "MikroTik Academy",
+                date: "2023",
+                desc: "Sertifikasi tingkat lanjut Mikrotik yang mencakup perencanaan serta eksekusi routing dinamis OSPF, BGP, multi-homing WAN, VPN tunneling (EoIP, IPsec), dan PTP."
+            },
+            {
+                title: "Fiber Optic Technician Certification",
+                issuer: "Telecommunication Center",
+                date: "2024",
+                desc: "Sertifikasi teknis instalasi dan pemeliharaan kabel serat optik. Meliputi teknik fusion splicing, penggunaan Optical Time-Domain Reflectometer (OTDR), dan troubleshooting redaman."
+            },
+            {
+                title: "CCNA: Introduction to Networks",
+                issuer: "Cisco Networking Academy",
+                date: "2022",
+                desc: "Sertifikasi Cisco mencakup arsitektur jaringan IP, konsep Ethernet, switching, routing dasar, subnetting, serta prinsip keamanan jaringan dasar."
+            },
+            {
+                title: "Belajar Dasar Pemrograman Web",
+                issuer: "Dicoding Academy",
+                date: "2023",
+                desc: "Sertifikasi kompetensi pembuatan antarmuka web modern responsif dengan HTML5, CSS3, layouting Flexbox/Grid, serta manipulasi DOM dengan JavaScript."
+            },
+            {
+                title: "Pelatihan Cyber Security - BISA AI",
+                issuer: "BISA AI Academy",
+                date: "12 November 2026",
+                desc: "Sertifikat penyelesaian pelatihan asinkronus Cyber Security dari BISA AI Academy, diterbitkan 12 November 2026. Nomor sertifikat 2026/531/76842."
+            }
+            ,
+            { title: "Cisco Dasar", issuer: "ID-Networkers", date: "Berlaku sampai 19-08-2029", desc: "Sertifikat ini menyatakan Laric telah menyelesaikan kursus online Cisco Dasar yang diselenggarakan ID-Networkers. Nomor sertifikat IDN-1787149123-184-80893. Verifikasi melalui lms.idn.id/cert-verification." },
+            { title: "Belajar Linux dari Nol", issuer: "ID-Networkers", date: "Berlaku sampai 19-08-2029", desc: "Sertifikat ini menyatakan Laric telah menyelesaikan kursus online Belajar Linux dari Nol yang diselenggarakan ID-Networkers. Nomor sertifikat IDN-1787148160-11033-80893. Verifikasi melalui lms.idn.id/cert-verification." },
+            { title: "Exploring Ruijie & Reyee Enterprise Technology", issuer: "ID-Networkers", date: "10 Oktober 2024", desc: "Sertifikat partisipasi sebagai peserta webinar Exploring Ruijie & Reyee Enterprise Technology yang diselenggarakan ID-Networkers pada 10 Oktober 2024." }            ,
+            { title: "Penyelesaian Misi Kontainerisasi Docker", issuer: "Docker Quest | SMK Plus Pelita Nusantara", date: "27 Oktober 2026", desc: "Menyelesaikan seluruh misi pembelajaran Kontainerisasi Docker (TP 4.1, 4.2, 4.3), meliputi konsep kontainerisasi, instalasi Docker Engine di server cloud, serta konfigurasi Docker Image dan Container. Lulus CBT dengan nilai 100 (Sangat Baik). Nomor: DQ/XIITKJ/2026/242510065-CAB6." },
+            { title: "Course OOP", issuer: "ID-Networkers", date: "Berlaku sampai 19-08-2029", desc: "Sertifikat penyelesaian kursus Course OOP dari ID-Networkers. Nomor sertifikat IDN-1787151016-10704-80893. Verifikasi melalui lms.idn.id/cert-verification." },
+            { title: "Getting Started with Industrial Cybersecurity", issuer: "ID-Networkers", date: "25 Juli 2025", desc: "Sertifikat partisipasi sebagai peserta webinar Getting Started with Industrial Cybersecurity yang diselenggarakan ID-Networkers pada 25 Juli 2025." },
+            { title: "Cyber Security Dasar", issuer: "ID-Networkers", date: "Berlaku sampai 19-08-2029", desc: "Sertifikat ini menyatakan Laric telah menyelesaikan kursus online Cyber Security Dasar yang diselenggarakan ID-Networkers. Verifikasi melalui lms.idn.id/cert-verification." },
+            { title: "Internet TCP/IP: Konsep & Implementasi", issuer: "SMK Plus Pelita Nusantara", date: "9 September 2024", desc: "Sertifikat peserta kuliah umum Internet TCP/IP Konsep & Implementasi dengan narasumber Onno W. Purbo, diselenggarakan Senin, 9 September 2024 pukul 15.30-16.30 WIB." }            ,
+            { title: "Gemini Certified Student - K12", issuer: "Google for Education", date: "Diterbitkan 1 Oktober 2026 - berlaku sampai 1 Oktober 2027", desc: "Kualifikasi Gemini Certified Student K12 dari Google for Education. Sertifikat menyatakan Laric Shultonan N telah menunjukkan pengetahuan, keterampilan, dan kompetensi dasar untuk menggunakan Google AI dalam pendidikan." },
+            { title: "Cyber Security Dasar", issuer: "ID-Networkers", date: "Berlaku sampai 19-08-2029", desc: "Sertifikat ini menyatakan Laric telah menyelesaikan kursus online Cyber Security Dasar yang diselenggarakan ID-Networkers. Nomor sertifikat IDN-1787114465-13888-80893. Verifikasi melalui lms.idn.id/cert-verification." }            ,
+            { title: "Grand Launching KID 2025", issuer: "myDigiLearn · Telkom Corporate University", date: "30 Juli 2025", desc: "Sertifikat penyelesaian live event berjudul Grand Launching KID 2025, diselenggarakan di Bandung pada 30 Juli 2025. Nomor sertifikat C.TELD-0551687/PD620/TCU-1B0000002025." }            ,
+            { title: "Praktik Kerja Lapangan", issuer: "PT Jaringan Pintar Nusantara", date: "20 Agustus 2025 - 10 Maret 2026", desc: "Sertifikat menyatakan Laric Shultonan Nashiro telah melakukan Praktik Kerja Lapangan di PT Jaringan Pintar Nusantara pada periode 20 Agustus 2025 hingga 10 Maret 2026. Ditandatangani Fajar Novianto, Direktur Utama." }        ];
+
+        // Data Skill Tabs & Deskripsi Kategori
+        const skillData = {
+            mikrotik: {
+                title: "Konfigurasi Dasar MikroTik",
+                desc: "Mampu melakukan konfigurasi dasar MikroTik, WLAN, VLAN, Hotspot Login, Bridge, manajemen bandwidth, pemblokiran situs web, dan routing."
+            },
+            fo: {
+                title: "Infrastruktur & Penyambungan Fiber Optic (FO)",
+                desc: "Mampu melakukan pengupasan kabel Fiber Optic hingga penyambungan core menggunakan fusion splicer. Terampil menggunakan alat Fiber Optic seperti splicer, OTDR, OPM, dan perangkat pendukung lainnya."
+            },
+            networking: {
+                title: "Administrasi & Pengelolaan Server",
+                desc: "Mampu menggunakan Linux OS, menyiapkan web server, serta menggunakan dan mengelola dedicated hosting."
+            },
+            webdev: {
+                title: "Elektro",
+                desc: "Mampu memprogram ESP32 dan Arduino, membuat proyek berbasis mikrokontroler, serta menerapkan pemahaman elektro dalam perakitan dan pengujian proyek."
+            }
+        };
+
+        const skillGalleryDefaults = {
+            mikrotik: [
+                "assets/skills/crimping-lan.jpeg",
+                "assets/skills/mikrotik-router-config-laptop.jpeg",
+                "assets/skills/mikrotik-winbox-config.jpeg",
+                null
+            ],
+            fo: [
+                "assets/skills/fiber-optic-01.jpeg",
+                "assets/skills/fiber-optic-02.jpeg",
+                "assets/skills/fiber-optic-03.jpeg",
+                "assets/skills/fiber-optic-04.jpeg"
+            ],
+            networking: [
+                "assets/skills/server-01.jpeg"
+            ],
+            webdev: [
+                "assets/skills/elektro-01.jpeg",
+                "assets/skills/elektro-02.jpeg",
+                "assets/skills/elektro-03.jpeg",
+                "assets/skills/elektro-04.jpeg",
+                "assets/skills/elektro-05.jpeg",
+                "assets/skills/elektro-06.jpeg",
+                "assets/skills/elektro-07.jpeg"
+            ]
+        };
+        // Automatic Current Year Footer
+        document.getElementById('currentYear').textContent = new Date().getFullYear();
+
+        // Typing Effect Animation
+        const typedTextElement = document.getElementById('typedText');
+        const roles = ["Network Engineer", "MikroTik Specialist", "Fiber Optic Technician", "Server Administrator", "Elektro"];
+        let roleIndex = 0;
+        let charIndex = 0;
+        let isDeleting = false;
+
+        function typeEffect() {
+            const currentRole = roles[roleIndex];
+            if (isDeleting) {
+                typedTextElement.textContent = currentRole.substring(0, charIndex - 1);
+                charIndex--;
+            } else {
+                typedTextElement.textContent = currentRole.substring(0, charIndex + 1);
+                charIndex++;
+            }
+
+            let typeSpeed = isDeleting ? 40 : 80;
+
+            if (!isDeleting && charIndex === currentRole.length) {
+                typeSpeed = 2000;
+                isDeleting = true;
+            } else if (isDeleting && charIndex === 0) {
+                isDeleting = false;
+                roleIndex = (roleIndex + 1) % roles.length;
+                typeSpeed = 500;
+            }
+
+            setTimeout(typeEffect, typeSpeed);
+        }
+
+        // Mobile Menu Navigation Toggle
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+        const menuIcon = document.getElementById('menuIcon');
+
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+            if (mobileMenu.classList.contains('hidden')) {
+                menuIcon.className = 'fa-solid fa-bars text-xl';
+            } else {
+                menuIcon.className = 'fa-solid fa-xmark text-xl';
+            }
+        });
+
+        document.querySelectorAll('.mobile-link').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+                menuIcon.className = 'fa-solid fa-bars text-xl';
+            });
+        });
+
+        // Tab Switcher for Skill Section
+        function switchTab(category) {
+            activeSkillTab = category;
+            const buttons = document.querySelectorAll('.tab-btn');
+            
+            buttons.forEach(btn => {
+                btn.className = "tab-btn px-5 py-3 rounded-xl font-semibold text-sm transition-all duration-300 flex items-center space-x-2 bg-slate-800 text-slate-300 hover:bg-slate-700";
+            });
+
+            const activeBtn = document.getElementById(`tab-${category}`);
+            if (activeBtn) {
+                activeBtn.className = "tab-btn px-5 py-3 rounded-xl font-semibold text-sm transition-all duration-300 flex items-center space-x-2 bg-brand-600 text-white shadow-lg shadow-brand-600/30";
+            }
+
+            // Update content text
+            const data = skillData[category];
+            if (data) {
+                document.getElementById('skillTitle').textContent = data.title;
+                document.getElementById('skillDesc').textContent = data.desc;
+            }
+
+            // Update gallery photos text dynamically based on tab selection
+            const categoryLabel = category === 'mikrotik' ? 'Mikrotik' : 
+                                  category === 'fo' ? 'Fiber Optic' : 
+                                  category === 'networking' ? 'Server' : 'Elektro';
+
+            for (let i = 1; i <= 7; i++) {
+                const imgEl = document.getElementById(`skillImg${i}`);
+                if (imgEl) {
+                    const categoryPhoto = skillGalleryDefaults[category] ? skillGalleryDefaults[category][i - 1] : null;
+                    imgEl.src = categoryPhoto || `https://placehold.co/600x400/1e293b/0284c7?text=${encodeURIComponent(categoryLabel + ' Foto ' + i)}`;
+                }
+            }
+        }
+
+        // Image Preview & Upload Logic
+        function previewImage(input, targetImgId) {
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById(targetImgId).src = e.target.result;
+                };
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        // Reset Individual Image
+        function resetImage(targetImgId, defaultSrc) {
+            document.getElementById(targetImgId).src = defaultSrc;
+        }
+
+        // Reset Skill Image
+        function resetSkillImage(index) {
+            const categoryLabel = activeSkillTab === 'mikrotik' ? 'MikroTik' :
+                                  activeSkillTab === 'fo' ? 'Fiber Optic' :
+                                  activeSkillTab === 'networking' ? 'Server' : 'Elektro';
+            const categoryPhoto = skillGalleryDefaults[activeSkillTab] ? skillGalleryDefaults[activeSkillTab][index - 1] : null;
+            const defaultUrl = categoryPhoto || `https://placehold.co/600x400/1e293b/0284c7?text=${encodeURIComponent(categoryLabel + ' Foto ' + index)}`;
+            document.getElementById(`skillImg${index}`).src = defaultUrl;
+        }
+
+        // Certificate Image Preview
+        function previewCertImage(input, index) {
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById(`certImg${index}`).src = e.target.result;
+                };
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        // Delete Certificate Card Logic
+        function deleteCertCard(index) {
+            const card = document.getElementById(`certCard${index}`);
+            if (card) {
+                card.style.transition = 'all 0.3s ease';
+                card.style.opacity = '0';
+                card.style.transform = 'scale(0.9)';
+                setTimeout(() => {
+                    card.remove();
+                }, 300);
+            }
+        }
+
+        // Lightbox Modal Functions for Certificates
+        function openCertModal(index) {
+            const cert = certificateData[index];
+            const currentImgSrc = document.getElementById(`certImg${index}`).src;
+
+            if (cert) {
+                document.getElementById('modalImg').src = currentImgSrc;
+                document.getElementById('modalTitle').textContent = cert.title;
+                document.getElementById('modalIssuer').textContent = cert.issuer;
+                document.getElementById('modalDate').innerHTML = `<i class="fa-solid fa-calendar-alt mr-1"></i>${cert.date}`;
+                document.getElementById('modalDesc').textContent = cert.desc;
+
+                const modal = document.getElementById('certModal');
+                modal.classList.remove('hidden');
+                document.body.style.overflow = 'hidden';
+            }
+        }
+
+        function closeCertModal() {
+            const modal = document.getElementById('certModal');
+            modal.classList.add('hidden');
+            document.body.style.overflow = 'auto';
+        }
+
+        // Close Modal on Background Click
+        document.getElementById('certModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeCertModal();
+            }
+        });
+
+        // Close Modal on ESC key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeCertModal();
+            }
+        });
+
+        // Reveal sections and portfolio cards as they enter the viewport
+        function initScrollAnimations() {
+            const targets = document.querySelectorAll('#hero .grid > div, #about .text-center.max-w-3xl, #about .grid > div, #skills .text-center.max-w-3xl, #skills .flex.flex-wrap.justify-center, #skills .glass-card, #skills #skillGallery > div, #certificates .text-center.max-w-3xl, #certContainer > div');
+            targets.forEach((element, index) => {
+                element.classList.add('scroll-reveal');
+                element.style.setProperty('--reveal-delay', `${Math.min((index % 6) * 75, 375)}ms`);
+            });
+            if (!('IntersectionObserver' in window)) {
+                targets.forEach(element => element.classList.add('is-visible'));
+                return;
+            }
+            const observer = new IntersectionObserver(entries => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.12, rootMargin: '0px 0px -4% 0px' });
+            targets.forEach(element => observer.observe(element));
+        }
+        initScrollAnimations();
+        // Initialize on Window Load
+        window.onload = function() {
+            typeEffect();
+        };
+    </script>
+</body>
+</html>
